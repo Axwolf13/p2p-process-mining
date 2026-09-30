@@ -1,0 +1,187 @@
+{
+  "raw": {
+    "cases": 251734,
+    "events": 1595923,
+    "activities": 42
+  },
+  "clean": {
+    "cases": 251270,
+    "excluded_cases": 464,
+    "events": 1591969
+  },
+  "flows": {
+    "3-way match, invoice before GR": {
+      "cases": 220886,
+      "share_pct": 87.9
+    },
+    "3-way match, invoice after GR": {
+      "cases": 15160,
+      "share_pct": 6.0
+    },
+    "2-way match": {
+      "cases": 729,
+      "share_pct": 0.3
+    },
+    "Consignment": {
+      "cases": 14495,
+      "share_pct": 5.8
+    }
+  },
+  "throughput_days": {
+    "3-way match, invoice before GR": {
+      "completed": 173636,
+      "median": 77.3,
+      "p75": 106.2,
+      "p90": 128.0
+    },
+    "3-way match, invoice after GR": {
+      "completed": 9656,
+      "median": 79.5,
+      "p75": 104.6,
+      "p90": 128.7
+    },
+    "2-way match": {
+      "completed": 253,
+      "median": 7.3,
+      "p75": 22.2,
+      "p90": 47.3
+    }
+  },
+  "compliance": {
+    "invoice_after_GR: invoice recorded before goods receipt": {
+      "cases": 11108,
+      "violations": 0,
+      "pct": 0.0
+    },
+    "invoice_before_GR: invoice cleared before any goods receipt": {
+      "cases": 173636,
+      "violations": 654,
+      "pct": 0.4
+    },
+    "consignment: invoice recorded on a consignment item": {
+      "cases": 14495,
+      "violations": 0,
+      "pct": 0.0
+    }
+  },
+  "after_the_fact_po": {
+    "cases_with_vendor_invoice": 209766,
+    "count": 3528,
+    "pct": 1.7,
+    "median_days_invoice_before_po": 11.7
+  },
+  "rework": {
+    "Change Price": {
+      "cases": 11207,
+      "pct": 4.5
+    },
+    "Change Quantity": {
+      "cases": 17576,
+      "pct": 7.0
+    },
+    "Delete Purchase Order Item": {
+      "cases": 8833,
+      "pct": 3.5
+    },
+    "Remove Payment Block": {
+      "cases": 55834,
+      "pct": 22.2
+    },
+    "Cancel Invoice Receipt": {
+      "cases": 6446,
+      "pct": 2.6
+    },
+    "Cancel Goods Receipt": {
+      "cases": 2468,
+      "pct": 1.0
+    }
+  },
+  "variants": {
+    "distinct": 11938,
+    "top1_pct": 20.0,
+    "top10_pct": 59.5,
+    "variants_for_80pct": 45,
+    "singleton_variants": 9001,
+    "top1": [
+      "Create Purchase Order Item",
+      "Vendor creates invoice",
+      "Record Goods Receipt",
+      "Record Invoice Receipt",
+      "Clear Invoice"
+    ]
+  },
+  "automation": {
+    "Record Goods Receipt": {
+      "events": 313486,
+      "batch_pct": 27.1,
+      "user_pct": 72.9,
+      "none_pct": 0.0
+    },
+    "Create Purchase Order Item": {
+      "events": 251270,
+      "batch_pct": 7.7,
+      "user_pct": 92.3,
+      "none_pct": 0.0
+    },
+    "Record Invoice Receipt": {
+      "events": 228020,
+      "batch_pct": 4.1,
+      "user_pct": 95.9,
+      "none_pct": 0.0
+    },
+    "Vendor creates invoice": {
+      "events": 219448,
+      "batch_pct": 0.0,
+      "user_pct": 0.0,
+      "none_pct": 100.0
+    },
+    "Clear Invoice": {
+      "events": 194120,
+      "batch_pct": 0.0,
+      "user_pct": 95.9,
+      "none_pct": 4.1
+    },
+    "Record Service Entry Sheet": {
+      "events": 164478,
+      "batch_pct": 0.0,
+      "user_pct": 0.0,
+      "none_pct": 100.0
+    },
+    "Remove Payment Block": {
+      "events": 57124,
+      "batch_pct": 27.0,
+      "user_pct": 73.0,
+      "none_pct": 0.0
+    },
+    "Create Purchase Requisition Item": {
+      "events": 46590,
+      "batch_pct": 22.0,
+      "user_pct": 78.0,
+      "none_pct": 0.0
+    },
+    "Receive Order Confirmation": {
+      "events": 32065,
+      "batch_pct": 14.6,
+      "user_pct": 85.4,
+      "none_pct": 0.0
+    },
+    "Change Quantity": {
+      "events": 21433,
+      "batch_pct": 0.0,
+      "user_pct": 100.0,
+      "none_pct": 0.0
+    },
+    "Change Price": {
+      "events": 12402,
+      "batch_pct": 0.0,
+      "user_pct": 100.0,
+      "none_pct": 0.0
+    },
+    "Delete Purchase Order Item": {
+      "events": 8869,
+      "batch_pct": 0.0,
+      "user_pct": 100.0,
+      "none_pct": 0.0
+    }
+  }
+}
