@@ -1,9 +1,9 @@
 """
 Stream the BPI Challenge 2019 XES log into two Parquet tables.
 
-The log is 728 MB of XML (251,734 cases, ~1.6M events). Parsing it whole needs
-more RAM than a laptop has spare, so this walks it with iterparse and clears
-each element as soon as it has been read.
+The log is 728 MB of XML (251,734 cases, ~1.6M events). Parsing it whole would
+hold the entire element tree in memory at several times the file size, so this
+walks it with iterparse and clears each trace as soon as it has been read.
 
     python scripts/xes_to_parquet.py
 
@@ -32,7 +32,6 @@ def cast(tag, value):
 
 def main():
     cases, events = [], []
-    depth = 0
     trace_attrs = None
     in_event = False
 

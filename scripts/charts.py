@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "output"
 
 # Same validated pair as the portfolio charts (accent vs recessive gray, both >= 3:1 on white)
-ACCENT, MUTED, FAINT = "#11A05A", "#838EA2", "#D9DDE3"
+ACCENT, MUTED = "#11A05A", "#838EA2"
 INK, SUB, GRID = "#1A2740", "#5A6B85", "#E2E4DB"
 
 plt.rcParams.update({
@@ -26,8 +26,8 @@ plt.rcParams.update({
 
 
 def throughput(r):
-    flows = [f for f in r["throughput_days"]]
     d = r["throughput_days"]
+    flows = list(d)
     fig, ax = plt.subplots(figsize=(7.5, 2.4))
     for i, f in enumerate(flows):
         y = len(flows) - 1 - i
@@ -91,7 +91,47 @@ def variants(r):
     fig.savefig(OUT / "variants.png")
 
 
+def blocks(r):
+    areas = r["payment_blocks"]["by_spend_area"]
+    names = [a for a in areas if a != "(blank)"][:7]
+    fig, ax = plt.subplots(figsize=(7.5, 2.9))
+    top = max(names, key=lambda a: areas[a]["share_of_all_blocks_pct"])
+    for i, a in enumerate(names):
+        y = len(names) - 1 - i
+        v = areas[a]
+        ax.barh(y, v["block_pct"], height=0.55, color=ACCENT if a == top else MUTED)
+        ax.text(v["block_pct"] + 0.6, y, f"{v['block_pct']:.0f}% of {v['items']:,} items", va="center", fontsize=9, color=SUB)
+    ax.set_yticks(range(len(names)))
+    ax.set_yticklabels(list(reversed(names)))
+    ax.set_xlim(0, 40)
+    ax.set_xlabel("% of items that needed a payment block removed")
+    ax.tick_params(axis="y", length=0)
+    ax.grid(axis="x", color=GRID, lw=0.8)
+    ax.set_axisbelow(True)
+    ax.set_title(f"Payment blocks by spend area ({top}, in green, holds {areas[top]['share_of_all_blocks_pct']:.0f}% of all blocks)",
+                 loc="left", fontsize=11, color=INK)
+    fig.savefig(OUT / "payment_blocks.png")
+
+
+def process_map(r):
+    """Mermaid source for the README's process map. GitHub renders it natively."""
+    pm = r["process_map"]
+    ids = {a: f"a{i}" for i, a in enumerate(pm["nodes"])}
+    lines = ["flowchart TD", "    start((start))", "    finish((end))"]
+    lines += [f'    {ids[a]}["{a}<br/>{p:.0f}% of items"]' for a, p in pm["nodes"].items()]
+    links = [("start", ids[a], c) for a, c in pm["starts"].items()]
+    links += [(ids[a], ids[b], c) for a, b, c in pm["edges"]]
+    links += [(ids[a], "finish", c) for a, c in pm["ends"].items()]
+    top = max(c for _, _, c in links)
+    lines += [f"    {x} -->|{c / 1000:.0f}k| {y}" for x, y, c in links]
+    # line width follows frequency, 1 to 6 px
+    lines += [f"    linkStyle {i} stroke-width:{1 + 5 * c / top:.1f}px" for i, (_, _, c) in enumerate(links)]
+    lines += ["    classDef block fill:#E3F4EA,stroke:#11A05A,stroke-width:2px,color:#1A2740",
+              f"    class {ids['Remove Payment Block']} block"]
+    (OUT / "process_map.mmd").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
 if __name__ == "__main__":
     r = json.loads((OUT / "results.json").read_text(encoding="utf-8"))
-    throughput(r); automation(r); variants(r)
+    throughput(r); automation(r); variants(r); blocks(r); process_map(r)
     print("charts written")

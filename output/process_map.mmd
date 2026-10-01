@@ -1,0 +1,51 @@
+flowchart TD
+    start((start))
+    finish((end))
+    a0["Create Purchase Order Item<br/>100% of items"]
+    a1["Record Goods Receipt<br/>93% of items"]
+    a2["Record Invoice Receipt<br/>84% of items"]
+    a3["Vendor creates invoice<br/>84% of items"]
+    a4["Clear Invoice<br/>73% of items"]
+    a5["Remove Payment Block<br/>22% of items"]
+    a6["Create Purchase Requisition Item<br/>18% of items"]
+    a7["Receive Order Confirmation<br/>13% of items"]
+    start -->|200k| a0
+    start -->|47k| a6
+    a2 -->|135k| a4
+    a1 -->|112k| a2
+    a3 -->|110k| a1
+    a0 -->|103k| a3
+    a3 -->|95k| a2
+    a1 -->|81k| a3
+    a0 -->|77k| a1
+    a5 -->|49k| a4
+    a6 -->|46k| a0
+    a2 -->|38k| a5
+    a0 -->|31k| a7
+    a7 -->|20k| a1
+    a2 -->|16k| a1
+    a1 -->|15k| a5
+    a4 -->|181k| finish
+    a2 -->|23k| finish
+    a1 -->|23k| finish
+    linkStyle 0 stroke-width:6.0px
+    linkStyle 1 stroke-width:2.2px
+    linkStyle 2 stroke-width:4.4px
+    linkStyle 3 stroke-width:3.8px
+    linkStyle 4 stroke-width:3.8px
+    linkStyle 5 stroke-width:3.6px
+    linkStyle 6 stroke-width:3.4px
+    linkStyle 7 stroke-width:3.0px
+    linkStyle 8 stroke-width:2.9px
+    linkStyle 9 stroke-width:2.2px
+    linkStyle 10 stroke-width:2.2px
+    linkStyle 11 stroke-width:1.9px
+    linkStyle 12 stroke-width:1.8px
+    linkStyle 13 stroke-width:1.5px
+    linkStyle 14 stroke-width:1.4px
+    linkStyle 15 stroke-width:1.4px
+    linkStyle 16 stroke-width:5.5px
+    linkStyle 17 stroke-width:1.6px
+    linkStyle 18 stroke-width:1.6px
+    classDef block fill:#E3F4EA,stroke:#11A05A,stroke-width:2px,color:#1A2740
+    class a5 block
